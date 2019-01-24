@@ -1,2 +1,2 @@
 # experimentation
-Not for productive use - playgroiund only!
+Not for productive use - playground only!
