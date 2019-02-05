@@ -57,7 +57,8 @@
   <div class="row">
    <div class="col-md-12 ">
     <div id="map" class="map" style="height: 400px; width: 100%;"></div>
-    
+    <div>Zoom: <span class="play-zoom">Play</span> <span class="pause-zoom">Pause</span></div>
+    <div>Width: <span class="play-width">Play</span> <span class="pause-width">Pause</span></div>
    </div>
   </div> <!-- end UPPER row -->
 				
@@ -126,15 +127,32 @@
     </script>
 
  <script type="text/javascript">
-  anime({
+
+
+var aniZoom = anime({
   targets: props,
   zoom: 6,
   loop: true,
   easing: 'easeInOutSine',
   direction: 'alternate',
-  duration: 1800,
+  duration: 1847,
   update: function () { map.getView().setZoom(props.zoom); }
 });	
+
+var aniWidth = anime({
+  targets: '.map',
+  width: ['100%', '50%'],
+  easing: 'easeInOutQuad',
+  direction: 'alternate',
+  duration: 3011,
+  loop: true,    
+});
+
+document.querySelector('.play-zoom').onclick = aniZoom.play;
+document.querySelector('.pause-zoom').onclick = aniZoom.pause;
+document.querySelector('.play-width').onclick = aniWidth.play;
+document.querySelector('.pause-width').onclick = aniWidth.pause;
+
  </script>	    
     
 </body>
