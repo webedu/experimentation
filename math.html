@@ -51,51 +51,18 @@
 
  <div class="container-fluid">
  
-   <div class="row">
-   <div class="col-md-4 ">  
-  <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-    </a-scene>
-   </div>
-   <div class="col-md-4 ">  </div>
-   <div class="col-md-4 ">  </div>
-  </div> <!-- end UPPER row -->  
- 
-  <div class="row" style="margin: 8px;">
-   <div class="col-md-6 "> 
-    <div class="moveit">Move this</div>	  
-   </div> <!-- end md-6 -->
-
-   <div class="col-md-6">
-     <i class="material-icons md-48 md-light">face</i>
-     <i class="material-icons md-48" style=" color: #FF0099">face</i>
-     <i class="fas fa-igloo"></i><i class="fab fa-font-awesome"></i>
-     <i class="fas fa-igloo fa-pulse"></i><i class="fas fa-igloo fa-spin"></i>
-     <i class="mg map-us mg-3x"></i><i class="mg map-glb-eu mg-fw"></i> 
-   </div> <!-- end md-6 -->
-  </div> <!-- end row -->
-
-	
-  <div class="row">
-   <div class="col-md-12 ">
-    <div id="map" class="map" style="height: 400px; width: 100%;"></div>
-    <div>Zoom: <span class="play-zoom">Play</span> <span class="pause-zoom">Pause</span></div>
-    <div>Width: <span class="play-width">Play</span> <span class="pause-width">Pause</span></div>
-   </div>
-  </div> <!-- end UPPER row -->
 				
   <div class="row" id="app-test">
    <div class="col-md-6"> 
     <div>
      <p>{{ message }}</p>
+	 <p id="pretty">{{ pretty }}</p>
+	 <p id="result">{{ result }}</p>
     </div>
+	
    </div>
    <div class="col-md-6"> 
-     <input v-model="message">
+     <input id="expr" v-model="message" type='text'>
      <button v-on:click="reverseMessage">Reverse Message</button>
    </div>
   </div> <!-- end LOWER row -->	
@@ -113,10 +80,15 @@
  <script src="https://cdn.jsdelivr.net/gh/webedu/foundation@master/vendor/anime/anime.min.js" type="text/javascript"></script>
  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js" type="text/javascript"></script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.bundle.min.js"></script>	 
+ 
+ <!-- script src="https://unpkg.com/mathjs@5.4.2/dist/math.min.js"></script -->
  <script src="https://cdn.jsdelivr.net/npm/mathjs@5.4.2/dist/math.min.js"></script>	
- <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.min.js"></script>	 
 
- <!-- script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" type="text/javascript"></script -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML.js"></script>
+  <!--script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js"></script-->
+ 
+
+ <!-- script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
  <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script -->
  <script src="http://cdnjs.cloudflare.com/ajax/libs/lockr/0.8.4/lockr.min.js" type="text/javascript"></script>
@@ -141,70 +113,27 @@
  <!-- script src="js/eonet.js" type="text/javascript"></script -->
  <!-- script src="js/spaceapp.js" type="text/javascript"></script -->	
 	
- <script type="text/javascript">
-  anime({
-  targets: '.moveit',
-  translateX: 250,
-  rotate: '1turn',
-  backgroundColor: '#FFF',
-  duration: 800
-});	
- </script>		
- 
- <script type="text/javascript">
-      var props = {zoom: 4.0};
-      var map = new ol.Map({
-        target: 'map',
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([37.41, 8.82]),
-          zoom: props.zoom
-        })
-      });
-    </script>
 
- <script type="text/javascript">
-
-
-var aniZoom = anime({
-  targets: props,
-  zoom: 6,
-  loop: true,
-  easing: 'easeInOutSine',
-  direction: 'alternate',
-  duration: 1847,
-  update: function () { map.getView().setZoom(props.zoom); }
-});	
-
-var aniWidth = anime({
-  targets: '.map',
-  width: ['100%', '50%'],
-  easing: 'easeInOutQuad',
-  direction: 'alternate',
-  duration: 3011,
-  loop: true,    
-});
-
-document.querySelector('.play-zoom').onclick = aniZoom.play;
-document.querySelector('.pause-zoom').onclick = aniZoom.pause;
-document.querySelector('.play-width').onclick = aniWidth.play;
-document.querySelector('.pause-width').onclick = aniWidth.pause;
-
- </script>
 
  <script type="text/javascript">
 var appTest = new Vue({
   el: '#app-test',
   data: {
-    message: 'Hello Vue.js!'
+    message: '5 sqrt(75 / 3) + det([[-1, 2], [3, 1]]) - sin(pi / 4)^2',
+	pretty: '$$$$',
+	result: '???'
+	//pretty: '$$' + math.parse(this.message).toTex({parenthesis: 'auto', implicit: 'show'}) + '$$',
+	//result: math.format(math.eval(this.message))
   },
   methods: {
     reverseMessage: function () {
-      this.message = this.message.split('').reverse().join('')
+      //this.message = this.message.split('').reverse().join('');
+	  this.result = math.format(math.eval(this.message));
+	  latex = math.parse(this.message).toTex({parenthesis: 'auto', implicit: 'hide'});
+	  console.log('LaTeX expression:', latex)
+	  const elem = MathJax.Hub.getAllJax('pretty')[0];
+	  MathJax.Hub.Queue(['Text', elem, latex]);
+	  //this.petty = '$$' +  + '$$';
     }
   }
 })
